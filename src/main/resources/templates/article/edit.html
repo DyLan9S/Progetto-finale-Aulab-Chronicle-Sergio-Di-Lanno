@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="~{index :: head}"></head>
+
+<body>
+    <nav th:insert="~{index :: navbar}"></nav>
+
+    <div class="container-fluid p-5 bg-secondary-subtle text-center">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <span class="h1">Edit article</span>
+                <h2 th:text="${title}">Title</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 my-5">
+                <form th:action="@{/articles/update/{id}(id=${article.id})}" method="post" th:object="${article}" enctype="multipart/form-data">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="articleTitle" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="articleTitle" th:field="*{title}" placeholder="Insert title">
+                            <p th:errors = "*{title}" class="text-danger" th:if="${#fields.hasErrors('title')}"></p>
+                        </div>
+                        <div class="col">
+                            <label for="subtitle" class="form-label">Subtitle</label>
+                            <input type="text" class="form-control" id="subtitle" th:field="*{subtitle}" placeholder="Insert subtitle">
+                            <p th:errors = "*{subtitle}" class="text-danger" th:if="${#fields.hasErrors('subtitle')}"></p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="body" class="form-label">Article:</label>
+                        <input type="text" class="form-control" id="body" th:field="*{body}" placeholder="Insert article">
+                        <p th:errors = "*{body}" class="text-danger" th:if="${#fields.hasErrors('body')}"></p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Publish date (8 chars)</label>
+                        <input type="date" class="form-control" id="date" th:field="*{publishDate}" placeholder="yyyyMMdd">
+                        <p th:errors = "*{publishDate}" class="text-danger" th:if="${#fields.hasErrors('publishDate')}"></p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select id="category" class="form-control" th:field="*{category}">
+                            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                            <p th:errors = "*{category}" class="text-danger" th:if="${#fields.hasErrors('category')}"></p>
+                        </select>
+                    </div>
+
+                    <div class="mb-3 d-flex flex-column" th:if="${article.image != null}">
+                        <label for="image" class="form-label">Article's image</label>
+                        <img th:src="${article.image.path}" id="image" alt="">
+                    </div>
+                    <div th:unless="${article.image != null}">
+                        <label for="image" class="form-label">Article's image</label>
+                        <p>No image</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" class="form-control" id="image" name="file">
+                    </div>
+
+                    <button type="submit" class="btn btn-success m-2">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:insert="~{index :: footer}"></footer>
+    <script th:replace="~{index :: bootstrapScript}"></script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{index :: head}"></head> 
+<body>
+    <nav th:insert="~{index :: navbar}"></nav>
+
+    <div class="vh-100">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 my-5 d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-center align-items-center flex-grow-1">
+                        <h1 th:text="${title}">Edit the category</h1>
+                    </div>
+                </div>
+
+                <div class="col-12 my-5">
+                    <form th:action="@{/categories/update/{id}(id=${category.id})}" method="post" th:object="${category}">
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label for="name" class="form-label">Category name</label>
+                                <input id="name" type="text" class="form-control" th:field="*{name}" placeholder="Enter category name...">
+                                <p th:errors="*{name}" class="text-danger" th:if="${#fields.hasErrors('name')}"></p>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success">Update category</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer th:insert="~{index :: footer}"></footer>
+    <script th:insert="~{index :: bootstrapScript}"></script>
+</body>
+</html>
